@@ -3,7 +3,7 @@ gpd_power_usbc_path="/sys/class/power_supply/fusb302-typec-source/"
 gpd_power_divisor=1000000
 gpd_power_divisor_squared=$(( $gpd_power_divisor * $gpd_power_divisor ))
 
-gpd_power_priority=10
+gpd_power_priority=100001
 gpd_power_update_every=
 
 gpd_power_battery_voltage=0
@@ -38,13 +38,13 @@ gpd_power_check() {
 
 gpd_power_create() {
   cat <<EOF
-CHART gpd_power.voltage '' "Voltage" "Volt (V)" gpd_power gpd_power line 3
+CHART gpd_power.voltage '' "Voltage" "Volt (V)" gpd_power gpd_power line $(( $gpd_power_priority + 3 ))
 DIMENSION battery '' absolute 1 $gpd_power_divisor
 DIMENSION usbc '' absolute 1 $gpd_power_divisor
-CHART gpd_power.current '' "Current" "Ampere (A)" gpd_power gpd_power line 2
+CHART gpd_power.current '' "Current" "Ampere (A)" gpd_power gpd_power line $(( $gpd_power_priority + 2 ))
 DIMENSION battery '' absolute 1 $gpd_power_divisor
 DIMENSION usbc 'usbc (max)' absolute 1 $gpd_power_divisor
-CHART gpd_power.power '' "Power" "Watt (W)" gpd_power gpd_power line 1
+CHART gpd_power.power '' "Power" "Watt (W)" gpd_power gpd_power line $(( $gpd_power_priority + 1 ))
 DIMENSION battery '' absolute 1 $gpd_power_divisor_squared
 DIMENSION usbc 'usbc (max)' absolute 1 $gpd_power_divisor_squared
 EOF
